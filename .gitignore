@@ -1,0 +1,20 @@
+# PyCharm local configuration folder
+.idea/
+
+# Python artifacts
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Robot Framework artifacts
+output.xml
+report.html
+log.html
+browser_log.txt
+
+# Screenshots and temporary data
+*.png
+*.jpg
+temp/
+screenshots/
