@@ -1,0 +1,16 @@
+--test testDemo2.Select the Form and navigate to Child window
+--variable CALLER_ID:65b8422603124a2c83bfeb4ed552b1db
+--variable PABOTLIBURI:127.0.0.1:8270
+--variable PABOTEXECUTIONPOOLID:2
+--variable PABOTISLASTEXECUTIONINPOOL:0
+--variable PABOTNUMBEROFPROCESSES:16
+--variable PABOTQUEUEINDEX:2
+--variable PABOTLASTLEVEL:
+--listener RobotStackTracer
+--log NONE
+--report NONE
+--xunit NONE
+--outputdir .\pabot_results\2
+--consolecolors off
+--consolemarkers off
+testDemo2.robot
