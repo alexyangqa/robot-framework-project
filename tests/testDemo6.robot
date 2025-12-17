@@ -5,7 +5,7 @@ Documentation   To validate the Login form
 Library     SeleniumLibrary
 Library     Collections
 Library     ../customLibraries/Shop.py
-Test Setup      Open The Browser With Different Browser    Edge
+Test Setup      Open The Browser With Different Browser    Chrome
 Suite Setup
 Suite Teardown
 Test Teardown   Close Browser session
@@ -23,7 +23,7 @@ ${country_name}    India
 
 *** Test Cases ***
 Validate Unsuccessful Login
-     [Tags]      SMOKE      REGRESSION
+     [Tags]      SMOKE
      LandingPage.Fill The Login Form     ${user_name}    ${invalid_password}
      LandingPage.Wait Until Element Is Located In The Page
      LandingPage.Verify Error Message Is Correct

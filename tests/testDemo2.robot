@@ -15,7 +15,7 @@ ${Shop_page_load}           css:.nav-link
 
 *** Test Cases ***
 Validate Unsuccessful Login
-    [Tags]      SMOKE
+    [Tags]      REGRESSION
     Fill the login Form     ${user_name}    ${invalid_password}
     wait until Element is located in the page     ${Error_Message_Login}
     verify error message is correct
