@@ -1,10 +1,10 @@
-name: Robot Framework CI/CD
+name: Robot Framework CI/cd
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, master, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
   test:
@@ -17,7 +17,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          # This caches your pip dependencies so the next run is faster
           cache: 'pip'
 
       - name: Install dependencies
@@ -26,16 +25,13 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run Robot Tests
-        # Adding '--loglevel DEBUG' helps you see exact errors in the console
         run: |
           robot --variable browser_name:headlesschrome --include smoke --loglevel DEBUG --outputdir results tests/
 
       - name: Upload Test Report
-        # 'if: always()' ensures you get a report even if a test fails!
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-framework-results
           path: results/
-          # Keep the results for only 7 days to save space
           retention-days: 7
