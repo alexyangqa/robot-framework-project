@@ -23,11 +23,13 @@ Verify Error Message Is Correct
 
 Fill the Login Details and Login Form
     Input Text          id:username     rahulshettyacademy
-    Input Password      id:password     learning
+    Input Password      id:password     rahulshettyacademy
     Click Element       css:input[value='user']
     Wait Until Element Is Visible       css:.modal-body
-    Click Button        id:okayBtn
-    Click Button        id:okayBtn
+    Click Button    id:okayBtn
+    Click Button    id:okayBtn
+    Click Button    id:okayBtn
+    Click Button    id:okayBtn
     Wait Until Element Is Not Visible   css:.modal-body
     Select From List By Value       css:select.form-control       teach
     Select Checkbox     terms

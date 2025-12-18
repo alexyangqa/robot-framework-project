@@ -4,7 +4,7 @@ Documentation   To validate the Login form
 ...    For Loop
 Library     SeleniumLibrary
 Library     Collections
-Test Setup      Open The Browser With The Mortgage Payment Url
+Test Setup      Open The Browser With Different Browser
 Test Teardown   Close Browser Session
 Resource        ../pageObject/Generic.robot
 

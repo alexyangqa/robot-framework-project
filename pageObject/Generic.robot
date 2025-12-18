@@ -12,22 +12,25 @@ ${user_name}             rahulshettyacademy
 ${invalid_password}      123445
 ${valid_password}        learning
 ${url}                   https://rahulshettyacademy.com/loginpagePractise/
-${browser_name}    Chrome
+#${browser_name}    Chrome
 
 
 
 *** Keywords ***
-Open The Browser With The Mortgage Payment Url
-#    Open Browser    browser=Chrome    options=add_experimental_option("detach",True)
-#    Set Window Size    1366    900
-    Open Browser    browser=Edge    options=add_argument("--incognito"); add_argument("--window-size=1366,900"); add_experimental_option("detach", True)
-    Go To   ${url}
-
-
 Open The Browser With Different Browser
-    [Arguments]    ${browser_name}
-    Open Browser    browser=${browser_name}    options=add_argument("--incognito"); add_argument("--window-size=1366,900"); add_experimental_option("detach", True)
+    Open Browser    browser=headlesschrome    options=add_argument("--incognito"); add_argument("--window-size=1366,900")
     Go To   ${url}
+
+Open The Browser With The Mortgage Payment Url
+    ${options}=    Set Variable    add_argument("--incognito"); add_argument("--window-size=1920,1080")
+
+    # Add headless automatically if the browser name contains "headless"
+    IF    "headless" in "${browser_name}"
+        ${options}=    Set Variable    ${options}; add_argument("--headless"); add_argument("--no-sandbox")
+    END
+
+    Open Browser    browser=${browser_name}    options=${options}
+    Go To           ${url}
 
 Open The Browser With The Url
     Create Webdriver    Chrome

@@ -2,6 +2,7 @@
 Documentation   To validate the Login form
 Library     SeleniumLibrary
 Test Teardown   Close Browser
+Resource        ../pageObject/Generic.robot
 
 
 *** Variables ***
@@ -10,7 +11,8 @@ ${Error_Message_Login}      css:.alert-danger
 
 *** Test Cases ***
 Validate Unsuccessful Login
-    Open The Browser With The Mortgage Payment Url
+    [Tags]    SMOKE    REGRESSION
+    Generic.Open The Browser With The Mortgage Payment Url
     Fill The Login Form
     Wait Until It Checks And Display Error Message
     Verify Error Message Is Correct

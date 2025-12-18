@@ -1,9 +1,13 @@
-name: Robot Framework CI
+name: Robot Framework CI/CD
 
-on: [push, pull_request] # Runs every time you push code
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -13,19 +17,25 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          # This caches your pip dependencies so the next run is faster
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Smoke Tests
+      - name: Run Robot Tests
+        # Adding '--loglevel DEBUG' helps you see exact errors in the console
         run: |
-          # This runs tests tagged 'smoke' in headless mode
-          robot --include smoke --variable BROWSER:headlesschrome --outputdir results tests/
+          robot --variable browser_name:headlesschrome --include smoke --loglevel DEBUG --outputdir results tests/
 
-      - name: Upload Results
+      - name: Upload Test Report
+        # 'if: always()' ensures you get a report even if a test fails!
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: robot-report
+          name: robot-framework-results
           path: results/
+          # Keep the results for only 7 days to save space
+          retention-days: 7

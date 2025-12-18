@@ -5,10 +5,10 @@ Documentation   To validate the Login form
 Library     SeleniumLibrary
 Library     Collections
 Library     ../customLibraries/Shop.py
-Test Setup      Open The Browser With Different Browser    Chrome
+Test Setup      Open The Browser With Different Browser
 Suite Setup
 Suite Teardown
-Test Teardown   Close Browser session
+Test Teardown    Close Browser Session
 Resource        ../pageObject/Generic.robot
 Resource        ../pageObject/LandingPage.robot
 Resource        ../pageObject/ShopPage.robot
@@ -37,9 +37,6 @@ End to end ecommerce Product validation
     CheckoutPage.Verify Items In The Checkout Page And Proceed
     ConfirmationPage.Enter The Country And Select The Terms     ${country_name}
     ConfirmationPage.Purchase The Product And Confirm The Purchase
-
-Select the Form and navigate to Child window
-    LandingPage.Fill the Login Details and Login Form
 
 
 
