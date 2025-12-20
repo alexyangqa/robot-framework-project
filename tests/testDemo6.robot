@@ -5,7 +5,7 @@ Documentation   To validate the Login form
 Library     SeleniumLibrary
 Library     Collections
 Library     ../customLibraries/Shop.py
-Test Setup      Open The Browser With Different Browser
+Test Setup      Open The Browser With Url
 Suite Setup
 Suite Teardown
 Test Teardown    Close Browser Session

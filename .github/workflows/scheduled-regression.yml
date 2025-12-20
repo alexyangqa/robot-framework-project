@@ -1,0 +1,37 @@
+name: Scheduled Regression Suite
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every night
+    - cron: '0 0 * * *'
+  workflow_dispatch: # The "Manual Release" button
+
+jobs:
+  regression-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Regression Tests
+        run: |
+          # Runs everything tagged 'regression'
+          robot --variable browser_name:headlesschrome --include regression --outputdir results/regression tests/
+
+      - name: Upload Regression Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-test-results
+          path: results/regression/

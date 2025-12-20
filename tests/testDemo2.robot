@@ -4,7 +4,7 @@ Documentation   To validate the Login form
 ...    For Loop
 Library     SeleniumLibrary
 Library     Collections
-Test Setup      Open The Browser With Different Browser
+Test Setup      Open The Browser With Url
 Test Teardown   Close Browser Session
 Resource        ../pageObject/Generic.robot
 

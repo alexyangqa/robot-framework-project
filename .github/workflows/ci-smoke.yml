@@ -1,13 +1,14 @@
-name: Robot Framework CI/CD
+name: CI - Smoke Suite
 
 on:
   push:
     branches: [ main, master, develop ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch: # Allows manual run for a quick check
 
 jobs:
-  test:
+  smoke-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -24,14 +25,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run Robot Tests
+      - name: Run Smoke Tests
         run: |
-          robot --variable browser_name:headlesschrome --include smoke --loglevel DEBUG --outputdir results tests/
+          robot --variable browser_name:headlesschrome --include smoke --outputdir results/smoke tests/
 
-      - name: Upload Test Report
+      - name: Upload Smoke Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-framework-results
-          path: results/
+          path: results/smoke/
           retention-days: 7
