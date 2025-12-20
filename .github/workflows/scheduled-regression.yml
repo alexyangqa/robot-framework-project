@@ -1,17 +1,15 @@
-name: Scheduled Regression Suite
+name: CD - Nightly Regression
 
 on:
-  push:
-    branches: [ main, master, develop ]
-  pull_request:
-    branches: [ main, master ]
-  workflow_dispatch: # Allows manual run for a quick check
+  schedule:
+    # Runs at 15:00 UTC, which is 02:00 AM Sydney (AEDT)
+    - cron: '0 15 * * *'
+  workflow_dispatch: # Allows manual trigger for major releases
 
 jobs:
   regression-tests:
     runs-on: ubuntu-latest
     env:
-      # This maps the GitHub Secret to a temporary environment variable
       LOGIN_USER: ${{ secrets.APP_USERNAME }}
       LOGIN_PASS: ${{ secrets.APP_PASSWORD }}
 
@@ -30,13 +28,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run regression Tests with Retry Logic
+      - name: Run Regression Tests with Retry Logic
         run: |
-          # Ensure a clean directory structure for results
+          # Ensure a clean directory structure for regression results
           mkdir -p results/regression
           mkdir -p results/regression/rerun
           
-          echo "Starting First Attempt..."
+          echo "Starting First Attempt of Full Regression..."
           # First Attempt
           robot --variable browser_name:headlesschrome \
                 --variable user:$LOGIN_USER \
@@ -45,29 +43,28 @@ jobs:
                 --outputdir results/regression \
                 tests/ || true
           
-          # Check if first attempt had failures by looking at output.xml
+          # Check if first attempt had failures
           if [ -f results/regression/output.xml ]; then
-              # Check if there are failures before attempting rerun
-              if grep -q 'fail="[1-9]' results/regression/output.xml; then
-                 echo "Failures detected, attempting rerun..."
-          
-                 # Rerun only failed tests
-                 robot --rerunfailed results/regression/output.xml \
-                       --variable browser_name:headlesschrome \
-                       --variable user:$LOGIN_USER \
-                       --variable pass:$LOGIN_PASS \
-                       --outputdir results/regression/rerun \
-                       tests/ || true
-          
-                 # Merge results so the final report is unified
-                 echo "Merging results..."
-                 rebot --merge --outputdir results/regression results/regression/output.xml results/regression/rerun/output.xml || true
-              else
-                 echo "All tests passed on first attempt."
-              fi
+            if grep -q 'fail="[1-9]' results/regression/output.xml; then
+              echo "Failures detected in regression suite. Starting Rerun..."
+               
+              # Rerun only failed tests
+              robot --rerunfailed results/regression/output.xml \
+                    --variable browser_name:headlesschrome \
+                    --variable user:$LOGIN_USER \
+                    --variable pass:$LOGIN_PASS \
+                    --outputdir results/regression/rerun \
+                    tests/ || true
+                 
+              # Merge results so the nightly report is unified
+              echo "Merging regression results..."
+              rebot --merge --outputdir results/regression results/regression/output.xml results/regression/rerun/output.xml || true
+            else
+              echo "All regression tests passed on first attempt."
+            fi
           else
-              echo "Robot Framework failed to generate output.xml. Check your test paths."
-              exit 1
+            echo "Robot Framework failed to generate regression output.xml."
+            exit 1
           fi
 
       - name: Upload Regression Results
@@ -76,4 +73,4 @@ jobs:
         with:
           name: regression-test-results
           path: results/regression/
-          retention-days: 7
+          retention-days: 14 # Keeping regression logs longer for deeper debugging
