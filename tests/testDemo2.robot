@@ -15,13 +15,13 @@ ${Shop_page_load}           css:.nav-link
 
 *** Test Cases ***
 Validate Unsuccessful Login
-    [Tags]      REGRESSION
-    Fill the login Form     ${user_name}    ${invalid_password}
+    Fill the login Form     ${user}    ${invalid_password}
     wait until Element is located in the page     ${Error_Message_Login}
     verify error message is correct
 
 Validate Cards display in the Shopping Page
-    Fill the login Form     ${user_name}    ${valid_password}
+    [Tags]      REGRESSION
+    Fill the login Form     ${user}    ${password}
     wait until Element is located in the page     ${Shop_page_load}
     Verify Card titles in the Shop page
     Select the Card     Nokia Edge

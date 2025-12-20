@@ -24,13 +24,13 @@ ${country_name}    India
 *** Test Cases ***
 Validate Unsuccessful Login
      [Tags]      SMOKE
-     LandingPage.Fill The Login Form     ${user_name}    ${invalid_password}
+     LandingPage.Fill The Login Form     ${user}    ${invalid_password}
      LandingPage.Wait Until Element Is Located In The Page
      LandingPage.Verify Error Message Is Correct
 
 End to end ecommerce Product validation
-    [Tags]      REGRESSION
-    LandingPage.Fill the login Form     ${user_name}    ${valid_password}
+    [Tags]      REGRESSION    SMOKE
+    LandingPage.Fill the login Form     ${user}    ${password}
     ShopPage.Wait Until Element Is Located In The Page
     ShopPage.Verify Card titles in the Shop page
     Add Items To Cart And Checkout    ${listOfProducts}

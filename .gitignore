@@ -18,3 +18,5 @@ browser_log.txt
 *.jpg
 temp/
 screenshots/
+
+private_variables.py

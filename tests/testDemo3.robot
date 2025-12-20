@@ -43,7 +43,7 @@ Grab the Email id in the Child Window
      @{words_2}=   Split String    ${text_split}
      #0->mentor@rahulshettyacademy.com
      ${email}=      Get From List    ${words_2}    0
-     [Return]    ${email}
+     RETURN    ${email}
 
 
 Switch to Parent window and enter the Email

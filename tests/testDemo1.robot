@@ -7,7 +7,6 @@ Resource        ../pageObject/Generic.robot
 *** Variables ***
 ${Error_Message_Login}      css:.alert-danger
 
-
 *** Test Cases ***
 Validate Unsuccessful Login
     [Tags]    SMOKE    REGRESSION
@@ -22,8 +21,8 @@ Open The Browser With The Mortgage Payment Url
     Go To   https://rahulshettyacademy.com/loginpagePractise/
 
 Fill The Login Form
-    Input Text          id:username     rahulshettyacademy
-    Input Password      id:password     12345678
+    Input Text          id:username     ${user}
+    Input Password      id:password     ${invalid_password}
     Click Button        id:signInBtn
 
 Wait Until It Checks And Display Error Message

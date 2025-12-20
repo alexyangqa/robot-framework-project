@@ -8,13 +8,9 @@ Library           SeleniumLibrary
 
 
 *** Variables ***
-${user_name}             rahulshettyacademy
 ${invalid_password}      123445
-${valid_password}        learning
 ${url}                   https://rahulshettyacademy.com/loginpagePractise/
 ${browser_name}    Chrome
-
-
 
 *** Keywords ***
 Open The Browser With Different Browser
