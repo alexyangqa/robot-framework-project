@@ -8,10 +8,11 @@ venv/
 .venv/
 
 # Robot Framework artifacts
-output.xml
-report.html
-log.html
-browser_log.txt
+results/
+tests/log.html
+tests/report.html
+tests/output.xml
+tests/pabot_results/
 
 # Screenshots and temporary data
 *.png
