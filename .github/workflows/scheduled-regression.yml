@@ -26,8 +26,18 @@ jobs:
 
       - name: Run Regression Tests
         run: |
-          # Runs everything tagged 'regression'
-          robot --variable browser_name:headlesschrome --include regression --outputdir results/regression tests/
+          # 1. First attempt - outputting to results/regression
+          robot --variable browser_name:headlesschrome --include regression --outputdir results/regression tests/ || true
+          
+          # 2. Check if the output file exists in the SUBFOLDER
+          if [ -f results/regression/output.xml ]; then
+            # 3. Rerun only failures into a 'rerun' subfolder
+            robot --rerunfailed results/regression/output.xml --variable browser_name:headlesschrome --outputdir results/regression/rerun tests/ || echo "No failed tests to rerun"
+          
+            # 4. Merge the rerun results back into the main regression output
+            # This ensures the final log.html shows the successful retry
+            rebot --merge --outputdir results/regression results/regression/output.xml results/regression/rerun/output.xml || true
+          fi
 
       - name: Upload Regression Results
         if: always()

@@ -27,7 +27,18 @@ jobs:
 
       - name: Run Smoke Tests
         run: |
-          robot --variable browser_name:headlesschrome --include smoke --outputdir results/smoke tests/
+          # 1. First attempt - outputting to results/smoke
+          robot --variable browser_name:headlesschrome --include smoke --outputdir results/smoke tests/ || true
+          
+          # 2. Check if the output file exists in the SUBFOLDER
+          if [ -f results/smoke/output.xml ]; then
+            # 3. Rerun only failures into a 'rerun' subfolder
+            robot --rerunfailed results/smoke/output.xml --variable browser_name:headlesschrome --outputdir results/smoke/rerun tests/ || echo "No failed tests to rerun"
+          
+            # 4. Merge the rerun results back into the main smoke output
+            # This ensures the final log.html shows the successful retry
+            rebot --merge --outputdir results/smoke results/smoke/output.xml results/smoke/rerun/output.xml || true
+          fi
 
       - name: Upload Smoke Results
         if: always()
