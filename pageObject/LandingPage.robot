@@ -5,7 +5,6 @@ Resource        Generic.robot
 
 *** Variables ***
 ${Error_Message_Login}      css:.alert-danger
-${login_url}    www.abc.om
 
 *** Keywords ***
 Fill the login Form
